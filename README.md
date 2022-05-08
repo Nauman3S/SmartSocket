@@ -101,7 +101,7 @@ Follow the pinout diagram given below to connect different components to your ES
 
 Here's the complete circuit diagram of the system.
 
-![CircuitDiagram](Circuit/CktFreq_bb.png)
+![CircuitDiagram](Circuit/Circuit_bb.png)
 
 ### PCB
 
