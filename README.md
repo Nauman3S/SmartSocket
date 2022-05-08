@@ -88,42 +88,14 @@ You should have Arduino IDE Installed
 5.  Now Upload the Code to your ESP32 Dev Module.
 6.  Your ESP32 is now ready to be used.
 
-#### Arduino Pro Mini Configuration
-
-Connect the circuit for programming as shown below
-
-![Pinout](Circuit/Programmer_bb.png)
-##### FTDI Pinout
-
-| FTDI Pins | Arduino Pro Mini |
-| :---------------- | :---- |
-| `RX`             | `TX0`  |
-| `TX`             | `RX0` |
-| `GND`             | `GND` |
-| `VCC`             | `RAW` |
-
-1.  Open ArdProMini_FW.ino file from Firmware/ArdProMini_FW folder.
-2.  Select Arduino Pro Mini Dev Module from Tools->Board->Arduino Pro Mini
-3.  Select ATmega328P (5V, 16 MHz) from Tools->Processor
-4.  Select the correct port from Tools->Port
-5.  Now Upload the Code to your Arduni Pro Mini Dev Module.
-
-If the code uploaded succesfully, you can disconnect the FTDI from Arduino Pro Mini.
-
-
 ##  🔌Circuit <a name = "circuit"></a>
 
-### ESP32 SIM800L T-Call V1.3 Module Pinout
+### ESP32 LILYGO®TTGO T-PCIE Module Pinout
 
-Follow the pinout diagram given below to connect different components to your ESP32 SIM800L T-Call V1.3 Module board.
+Follow the pinout diagram given below to connect different components to your ESP32 LILYGO®TTGO T-PCIE Module board.
 
-![Pinout](Circuit/simpins.jpg)
+![Pinout](Circuit/esp32pinout.jpg)
 
-### Arduino Pro Mini (5v) Pinout
-
-Follow the pinout diagram given below to connect different components to your Arduino Pro Mini (5v) board.
-
-![Pinout](Circuit/arduino-pro-mini3.png)
 
 ### Complete Circuit Diagram
 
@@ -146,33 +118,21 @@ Here's the complete circuit diagram of the system.
 Other components pin connection details
 ```
 
-#### Frequency Measuring Circuit
+#### Smart Socket Circuit
 
 ```Different Components connected to Arduino Pro Mini for Frequency Measurements```
 
-##### 4N35 Pinout
-![CircuitDiagram](Circuit/4n35.gif)
-
-| 4N35 Pins | Connected To |
-| :---------------- | :---- |
-| `PIN1`             | `100K Resistor -> 1N4007 -> AC 1`  |
-| `PIN2`             | `AC 2` |
-| `PIN3`             | `Not Connected` |
-| `PIN4`             | `Not Connected` |
-| `PIN5`             | `12K Resistor -> 5V adn Arduino Pro Mini D2`  |
-| `PIN6`             | `GND`  |
-
-#### ESP32 SIM800L Connections
+#### ESP32 LILYGO®TTGO T-PCIE Connections
 
 ```Arduino Pro Mini Connected with ESP32```
 
-| Arduino Pro Mini | ESP32 |
+| Relay | ESP32 |
 | :---------- | :---- |
-| `D5`   | `RXD` |
-| `D6`   | `TXD` |
-| `GND`   | `GND` |
+| `CH1`   | `12` |
+| `DC+`   | `5V` |
+| `DC-`   | `GND` |
 
-*   These pins are connected via Logic Level Shifter
+*   CH1 pin is connected via Logic Level Shifter
 
 #### LED
 
@@ -180,133 +140,13 @@ Other components pin connection details
 
 | LED Pins | ESP32 |
 | :---------- | :---- |
-| `Pin 1(Long Pin)`   | `13` |
+| `Pin 1(Long Pin)`   | `36` |
 | `Pin 2`   | `GND` |
-
-
-#### RTC DS3231
-
-```RTC Connected with ESP32```
-
-| RTC Pins | ESP32 |
-| :---------- | :---- |
-| `+`   | `3.3V` |
-| `C`   | `22` |
-| `D`   | `21` |
-| `-`   | `GND` |
-
-#### GPS BN-180 GPS Module
-
-```GPS Connected with ESP32```
-##### GPS Pinout
-![CircuitDiagram](Circuit/gps.jpg)
-
-| GPS Pins | ESP32 |
-| :---------- | :---- |
-| `GND`   | `GND` |
-| `TX`   | `34` |
-| `RX`   | `35` |
-| `5V`   | `5V` |
-
 
 
 
 ## 💻WebApp <a name = "webapp"></a>
 
-WebApp can be accessed from the link below
-*   http://electricfrequencymonitor.production.rehanshakir.com/
-    *   user: admin@smartefm.com
-    *   pass: admin
-
-### MQTT Topics
-
-```MQTT Topic Details```
-*   As seen from ESP32
-
-| Topic | Type | Details
-| :---------- | :---- |  :---- |
-| `SmartEFM/data`   | `PUBLISH` |  `Publishes data in the format *frequency,period;Timestamp;Latitude,Longitude* where frequency is in Hz and period is in ms.` | 
-
-### Data
-Data published from the device would be in the JSON format given below:
-
-```json
-{
-  "macAddress": "",
-  "timestamp": "",
-  "longitude": "",
-  "latitude": "",
-  "Frequency(Hz)": "",
-  "Period(mS)": ""
-}
-```
-### FrontEnd
-
--   The WebApp is developed using NodeJS, ReactJS and MongoDB.
-
--   Link: [Complete Dashboard](http://electricfrequencymonitor.production.rehanshakir.com/)
-    *   user: admin@smartefm.com
-    *   pass: admin
-
-![dashboard1](artwork/db1.png) Electric Frequency Dashboard Home Page
-
-![dashboard12](artwork/db2.png) Map Page with Devices Location
-
-![dashboard16](artwork/db7.png) Map Page Additional Information Marker
-
-![dashboard13](artwork/db3.png) Settings Page
-
-![dashboard14](artwork/db5.png) Sign-in Page
-
-![dashboard15](artwork/db6.png) Sign-up Page
-
-
-### Database
-
-You can access the database from the link below
-
-*   http://electricfrequencymonitor-data-preview.production.rehanshakir.com/
-    *   User: admin
-    *   Password: admin
-
-![dashboard225](artwork/db.png) Database
-## Usage <a name = "usage"></a>
-
-1.  [Upload the code to your Arduino Pro Mini](https://github.com/Nauman3S/SmartSocket#arduino-pro-mini-configuration)
-2.  [Upload the code to your ESP32](https://github.com/Nauman3S/SmartSocket#esp32-configurationfrequency-counter)
-3.  [Make the circuit](https://github.com/Nauman3S/SmartSocket#complete-circuit-diagram)
-4.  Power on your ESP32, it will present you with an AP named `SmartEFM-abcd` (while `SmartEFM` can be changed in the portal and `abcd` is a unique id for each esp32) 
-5.  Default captive portal password `123456789AP` which can be changed in captive portal. 
-6.  Connect to the ESP32 access point and open the web-browser and navigate to the link `http://esp32.local/_ac`. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL. 
-7.  The default access IP Address is `http://192.168.4.1/_ac` 
-8.  You will be presented with a main dashboard as shown below(based on your device)
-![SCR1](artwork/scr1.png)
-    * You can also open `http://esp32.local/` to access the CaptivePortal.
-![SCR1](artwork/scr2.png)
-9. You can connect to WiFi, from "Connect to WiFi" menu
-![SCR1](artwork/scr4.png)
-10. Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
-11. You can open settings page with following default credentials
-   1.  User: **AP Name (SmartEFM)**
-   2.  Password: **admin**
-
-In settings page, you can configure your device. You can set network type (WiFi/GPRS) and you can set network APN details as well.
-![SCR1](artwork/scr3.png)
-
-13. Open the [test dashboard](https://nodered-proxy.production.wrapdrive.tech/ui/#!/2) to see the live data
-
-<br><br>
-
-### PCB
-
-![PCBBS](PCB/SmartBluetoothScanner/pcb2d.png)
-![PCBEFM3d](PCB/SmartBluetoothScanner/pcb3d.png)
-
-### Casing
-
-![CAEFM](Casing/SmartEFM_BS_Box.png)
-![CAEFMTOP](Casing/SmartBS_TC.png)
-## 💻WebApp <a name = "webapp_ble"></a>
 
 WebApp can be accessed from the link below
 
@@ -344,7 +184,7 @@ Data published from the device would be in the JSON format given below:
     *   user: admin@smartsocket.com
     *   pass: admin -->
 
-![dashboard21](artwork/db4.png) Dashboard Home Page
+<!-- ![dashboard21](artwork/db4.png) Dashboard Home Page
 
 ![dashboard23](artwork/db3.png) Settings Page
 
@@ -352,19 +192,59 @@ Data published from the device would be in the JSON format given below:
 
 ![dashboard24](artwork/db5.png) Sign-in Page
 
-![dashboard25](artwork/db6.png) Sign-up Page
+![dashboard25](artwork/db6.png) Sign-up Page -->
 
 ### Database
 
 You can access the database from the link below
 
 **TO BE ADDED**
-
-<!-- *   http://smartsocket-data-preview.production.rehanshakir.com/
+<!-- 
+*   http://smartsocket-data-preview.production.rehanshakir.com/
     *   User: admin
-    *   Password: admin -->
+    *   Password: admin
 
-![dashboard115](artwork/db.png) Database
+![dashboard115](artwork/db.png) Database -->
+
+## Usage <a name = "usage"></a>
+
+1.  [Upload the code to your Arduino Pro Mini](https://github.com/Nauman3S/SmartSocket#arduino-pro-mini-configuration)
+2.  [Upload the code to your ESP32](https://github.com/Nauman3S/SmartSocket#esp32-configurationfrequency-counter)
+3.  [Make the circuit](https://github.com/Nauman3S/SmartSocket#complete-circuit-diagram)
+4.  Power on your ESP32, it will present you with an AP named `SmartEFM-abcd` (while `SmartEFM` can be changed in the portal and `abcd` is a unique id for each esp32) 
+5.  Default captive portal password `123456789AP` which can be changed in captive portal. 
+6.  Connect to the ESP32 access point and open the web-browser and navigate to the link `http://esp32.local/_ac`. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL. 
+7.  The default access IP Address is `http://192.168.4.1/_ac` 
+8.  You will be presented with a main dashboard as shown below(based on your device)
+![SCR1](artwork/scr1.png)
+    * You can also open `http://esp32.local/` to access the CaptivePortal.
+![SCR1](artwork/scr2.png)
+9. You can connect to WiFi, from "Connect to WiFi" menu
+![SCR1](artwork/scr4.png)
+10. Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
+11. You can open settings page with following default credentials
+   1.  User: **AP Name (SmartEFM)**
+   2.  Password: **admin**
+
+In settings page, you can configure your device. You can set network type (WiFi/GPRS) and you can set network APN details as well.
+![SCR1](artwork/scr3.png)
+
+13. Open the [test dashboard](https://nodered-proxy.production.wrapdrive.tech/ui/#!/2) to see the live data
+
+<br><br>
+
+### PCB
+
+**TO BE ADDED**
+
+<!-- ![PCBBS](PCB/SmartBluetoothScanner/pcb2d.png)
+![PCBEFM3d](PCB/SmartBluetoothScanner/pcb3d.png) -->
+
+### Casing
+
+![CAEFM](Casing/SmartEFM_BS_Box.png)
+
+
 
 <br><br>
 # List of Components <a name = "list"></a>
@@ -373,35 +253,20 @@ Following components are used to make this project
 
 1.   Microcontrollers
      *   ESP32 with SIM800L
-    https://www.amazon.com/LILYGO-Wireless-Antenna-SIM800L-Version/dp/B098PYCBQW/ref=sr_1_1?crid=1MS7CP5SX2Y16&keywords=esp32+sim800l&qid=1642481213&sprefix=esp32+sim800%2Caps%2C313&sr=8-1
-     *   Arduino Pro Mini
-    https://www.amazon.com/HiLetgo-Atmega328P-Replace-ATmega128-Atmega328/dp/B07X2JGS69/ref=sr_1_2?crid=35406P9HKFJY0&keywords=atmega+328p-p&qid=1642413483&sprefix=atmega+328p-pu%2Caps%2C307&sr=8-2
+    https://de.aliexpress.com/item/4001142716386.html?gatewayAdapt=glo2deu
 
-2.  Frequency Measuring Components
-    *   Optocoupler 4N35
-    https://www.amazon.com/Brands-4N35-Optocoupler-Channel-Transfer/dp/B00B88AOS6/ref=sr_1_1?crid=5HXZNV1U40MM&keywords=4N35&qid=1642413737&sprefix=atmega+328p-p%2Caps%2C313&sr=8-1
-    *   A few 100k and 12k Resistors
-    *   Diode 1N4007
-3.  Power Circuit
+2.  Power Circuit
     *   AC to 5V DC Converter
     https://www.amazon.com/Converter-Universal-Isolated-Switching-Version/dp/B07SGQ6XXR/ref=sr_1_1?crid=12JGAW640YK25&keywords=ac+to+dc+module&qid=1642413883&sprefix=ac+to+dc+modu%2Caps%2C303&sr=8-1
-4.  Misc
-    *   On/OFF Switch
-    https://www.amazon.com/Terminal-Rocker-Switch-Swithcher-Button/dp/B07VLMDCWG/ref=sr_1_1?keywords=on+off+button+AC&qid=1636887645&sr=8-1
+3.  Misc
     *   5mm LED Light
     https://www.amazon.com/MCIGICM-Circuit-Assorted-Science-Experiment/dp/B07PG84V17/ref=sr_1_2?crid=2EJHAQUUNKS16&keywords=led+5mm&qid=1642414000&sprefix=led+5%2Caps%2C336&sr=8-2
 
     *   Bi-directional logic level shifter
     https://www.amazon.com/DZS-Elec-Converter-Bi-Directional-Communication/dp/B07J67MTKV/ref=sr_1_10?keywords=logic+level+converter+bi-directional&qid=1642477438&sprefix=bi-directional+level%2Caps%2C417&sr=8-10
-    *   GPS Module
-    https://www.amazon.com/Geekstory-Navigation-Raspberry-Aircraft-Controller/dp/B078Y4XZN9/ref=sr_1_17?crid=33FH7DIKFEP4S&keywords=gps+module&qid=1642481363&sprefix=gps+modu%2Caps%2C346&sr=8-17
-    *   RTC Module
-    https://www.amazon.com/HiLetgo-DS3231-Precision-Arduino-Raspberry/dp/B01N1LZSK3/ref=sr_1_3?crid=LTB34NMVSDH1&keywords=rtc+module&qid=1642481554&sprefix=rtc+modu%2Caps%2C322&sr=8-3
-    *   Aluminium Enclosure for EMF shielding
-    https://www.amazon.com/BUD-Industries-CN-5711-Aluminum-Enclosure/dp/B005T78G64/ref=sr_1_5?crid=1H401WAXI5XPV&keywords=Aluminum+Enclosure&qid=1642481827&sprefix=aluminum+enclosure%2Caps%2C359&sr=8-5
-    *   FTDI USB To Serial
-    https://www.amazon.com/HiLetgo-FT232RL-Converter-Adapter-Breakout/dp/B00IJXZQ7C/ref=sr_1_3?crid=1CH2Y9OMXVS0U&keywords=ftdi&qid=1642921406&sprefix=ft%2Caps%2C585&sr=8-3
-
+    
+    *   Solid State Relay
+    https://www.amazon.com/DollaTek-1-Channel-Level-Trigger-Module/dp/B07DK29FR6/ref=sr_1_12?crid=3AY7SEMFWEWVT&keywords=ssr+relay+module&qid=1651029377&sprefix=ss+relay+module%2Caps%2C174&sr=8-12
 # ⛏️ Built Using <a name = "built_using"></a>
 
 
