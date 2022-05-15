@@ -275,11 +275,9 @@ void loopGPRS()
     delay(100);
     return;
   }
-  if (isDataAvailable())
-  {
-    String datastamp = getRelayState();
-    mqttPublishData("SmartSocket/data", datastamp);
-  }
+
+  
+  mqttPublishData("SmartSocket/data", String(getRelayState()));
 
   mqtt.loop();
 }

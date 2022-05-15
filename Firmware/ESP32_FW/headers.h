@@ -6,16 +6,15 @@ String apid;
 String hostName = "SmartSocket";
 String apPass;
 String settingsPass;
-String apn="null";
-String apnUser="";
-String apnPass="";
-String networkType="WiFi";
+String apn = "null";
+String apnUser = "";
+String apnPass = "";
+String networkType = "WiFi";
 #include <ArduinoJson.h>
 #include "relayHandler.h"
 DynamicJsonDocument doc(2024);
 String myMac = "";
-String status="NULL";
-
+String status = "NULL";
 
 #if defined(ARDUINO_ARCH_ESP8266)
 #include <ESP8266WiFi.h>
@@ -51,8 +50,7 @@ fs::SPIFFSFS &FlashFS = SPIFFS;
 #endif
 #include "statusLED.h"
 #include "neoTimer.h"
-#include "rtcHandler.h"
-#include "gpsHandler.h"
+
 #define GET_CHIPID() ((uint16_t)(ESP.getEfuseMac() >> 32))
 
 unsigned long lastPub = 0;
@@ -79,7 +77,7 @@ static const char PAGE_AUTH[] PROGMEM = R"(
 }
 )";
 
-SoftwareStack ss; //SS instance
+SoftwareStack ss; // SS instance
 AutoConnectConfig config;
 AutoConnect portal(server);
 
@@ -89,7 +87,7 @@ String mac = (WiFi.macAddress());
 char __mac[sizeof(mac)];
 
 const char *mqtt_server = "broker.hivemq.com";
-//IPAddress mqttBroker(34,214,65,82);
+// IPAddress mqttBroker(34,214,65,82);
 const int mqtt_port = 1883;
 const char *mqtt_user = "testUser";
 const char *mqtt_pass = "testUser@123";
@@ -101,8 +99,6 @@ String incomingTopic = "";
 WiFiClient wclient;
 PubSubClient mqttClient(wclient);
 
-String devList[10];
-String IMEIsList[10];
 String LastUpdated = "";
 String internetStatus = "Not-Connected";
 int selectedDeviceIndex = 0;
@@ -110,7 +106,7 @@ String connectionMode = "WiFi";
 
 bool atDetect(IPAddress &softapIP)
 {
-    Serial.println("Captive portal started, SoftAP IP:" + softapIP.toString());
+  Serial.println("Captive portal started, SoftAP IP:" + softapIP.toString());
 
-    return true;
+  return true;
 }

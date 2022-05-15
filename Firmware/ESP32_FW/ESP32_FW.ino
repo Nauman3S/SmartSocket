@@ -1,12 +1,8 @@
 #include "headers.h"   //all misc. headers and functions
 #include "MQTTFuncs.h" //MQTT related functions
-
-#include "webApp.h" //Captive Portal webpages
-#include <FS.h>     //ESP32 File System
-
-#include "communicationHandler.h"
+#include "webApp.h"    //Captive Portal webpages
+#include <FS.h>        //ESP32 File System
 #include "GPRS.h"
-// 45,20;25/01/2022 09:52:10;12.2,13.765
 IPAddress ipV(192, 168, 4, 1);
 String loadParams(AutoConnectAux &aux, PageArgument &args) // function to load saved settings
 {
@@ -104,7 +100,7 @@ uint8_t inAP = 0;
 
 bool whileCP()
 {
-    loopCommunicationHandler();
+
     if (networkType == "GPRS")
     {
         loopGPRS();
@@ -281,8 +277,7 @@ void loop()
     if (millis() - lastPub > updateInterval) // publish data to mqtt server
     {
 
-        String datastamp = getRelayState();
-        mqttPublish("SmartSocket/data", datastamp);
+        mqttPublish("SmartSocket/data", String(getRelayState()));
 
         ledState(ACTIVE_MODE);
 
