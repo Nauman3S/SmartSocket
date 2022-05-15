@@ -8,20 +8,14 @@ int deviceExisits = 0;
 
 void MQTTUnSubscribe()
 {
-    // String topicN = String("CPT/device/price");
-    String topicN = ss.getMacAddress() + String("/hvac");
+    
+    String topicN = ss.getMacAddress() + String("/relay");
 
     mqttClient.unsubscribe(topicN.c_str());
 }
 void MQTTSubscriptions()
 {
-    //mqttClient.subscribe("SmartTControl/data/v");
-
-    // for(int i=0;i<10;i++){
-    //   IMEIsList[i]==String("NA");
-    // }
-    // String topicN = String("CPT/device/price");
-    String topicN = ss.getMacAddress() + String("/hvac");
+    String topicN = ss.getMacAddress() + String("/relay");
 
     mqttClient.subscribe(topicN.c_str());
 }
@@ -37,10 +31,16 @@ void callback(char *topic, byte *payload, unsigned int length)
         pLoad = pLoad + String((char)payload[i]);
     }
     Serial.println();
-    // if (String(topic) == String("CPT/device/price"))
-    // {
-    //     setCrypto(pLoad);
-    // }
+    String topicN = ss.getMacAddress() + String("/relay");
+    if (String(topic) == topicN)
+    {
+        if(pLoad==String("ON")){
+            changeRelayState(true);
+        }
+        else if(pLoad==String("OFF")){
+            changeRelayState(false);
+        }
+    }
     status = pLoad;
 
     // Switch on the LED if an 1 was received as first character

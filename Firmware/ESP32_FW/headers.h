@@ -3,7 +3,7 @@ String channelId;
 String userKey;
 String apiKey;
 String apid;
-String hostName = "SmartEFM";
+String hostName = "SmartSocket";
 String apPass;
 String settingsPass;
 String apn="null";
@@ -11,6 +11,7 @@ String apnUser="";
 String apnPass="";
 String networkType="WiFi";
 #include <ArduinoJson.h>
+#include "relayHandler.h"
 DynamicJsonDocument doc(2024);
 String myMac = "";
 String status="NULL";

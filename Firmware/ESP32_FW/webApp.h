@@ -45,7 +45,7 @@ void handleRoot()
         "<div class=\"menu\">" AUTOCONNECT_LINK(BAR_24) "</div>"
                                                         "Smart Electric Frequency Monitor Device<br>");
 
-    page += String(F("<h1>Smart Electric Frequency Monitor Device</h1>"));
+    page += String(F("<h1>Smart Socket</h1>"));
 
     page += String(F("<h3>Device ID: "));
     page += ss.getMacAddress();

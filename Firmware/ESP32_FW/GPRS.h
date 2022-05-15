@@ -32,7 +32,7 @@
 
 // or Software Serial on Uno, Nano
 //#include <SoftwareSerial.h>
-//SoftwareSerial SerialAT(2, 3); // RX, TX
+// SoftwareSerial SerialAT(2, 3); // RX, TX
 
 // See all AT commands, if wanted
 //#define DUMP_AT_COMMANDS
@@ -58,13 +58,11 @@ const char wifiPass[] = "YourWiFiPass";
 // MQTT details
 const char *broker = "broker.hivemq.com";
 
-const char *topicInit = "SmartEFM/init";
-const char *topicRelay = "SmartEFM/relay";
+const char *topicInit = "SmartSocket/init";
+const char *topicRelay = "SmartSocket/relay";
 
-const char *topicPressureSensorStatus = "SmartEFM/pressure";
-const char *topicPressureSensorLive = "SmartEFM-device/SmartEFM/pressure";
-const char *topicPressureRelayLive = "SmartEFM-device/SmartEFM/relayState";
-const char *topicPressureEventChange = "SmartEFM-device/SmartEFM/eventPressureLimitChanged";
+const char *topicRelayLive = "SmartSocket-device/SmartSocket/relayState";
+const char *topicEventChange = "SmartSocket-device/SmartSocket/eventPressureLimitChanged";
 
 #include <TinyGsmClient.h>
 #include <PubSubClient.h>
@@ -122,7 +120,7 @@ void mqttCallback(char *topic, byte *payload, unsigned int len)
     else
     {
     }
-    //mqtt.publish(topicPressureSensorStatus, ledStatus ? "1" : "0");
+    // mqtt.publish(topicPressureSensorStatus, ledStatus ? "1" : "0");
   }
 }
 
@@ -147,7 +145,7 @@ boolean mqttConnect()
   boolean status = mqtt.connect(clientId);
 
   // Or, if you want to authenticate MQTT:
-  //boolean status = mqtt.connect("GsmClientName", "mqtt_user", "mqtt_pass");
+  // boolean status = mqtt.connect("GsmClientName", "mqtt_user", "mqtt_pass");
 
   if (status == false)
   {
@@ -163,7 +161,7 @@ boolean mqttConnect()
 void setupGPRS()
 {
   // Set console baud rate
-  //SerialMon.begin(115200);
+  // SerialMon.begin(115200);
   delay(10);
 
   pinMode(LED_PIN, OUTPUT);
@@ -255,7 +253,7 @@ void setupGPRS()
 }
 void mqttPublishData(String path, String msg)
 {
-  //String path = String("channels/") + channelId + String("/publish/") + apiKey;
+  // String path = String("channels/") + channelId + String("/publish/") + apiKey;
   mqtt.publish(path.c_str(), msg.c_str());
 }
 void loopGPRS()
@@ -279,8 +277,8 @@ void loopGPRS()
   }
   if (isDataAvailable())
   {
-    String datastamp = readData() + String(";") + getTimestamp() + String(";") + getGPSData();
-    mqttPublishData("SmartEFM/data", datastamp);
+    String datastamp = getRelayState();
+    mqttPublishData("SmartSocket/data", datastamp);
   }
 
   mqtt.loop();
