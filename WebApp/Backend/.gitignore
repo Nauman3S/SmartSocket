@@ -1,0 +1,9 @@
+/dist
+/node_modules
+.env
+.package-lock.json
+package-lock.json
+yarn.lock
+/*/node_modules
+/csv
+yarn.lock
