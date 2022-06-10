@@ -49,3 +49,19 @@ export const publishToMqtt = async (req: Request, res: Response) => {
       .json({ message: `INTERNAL SERVER ERROR: ${(error as Error).message}` });
   }
 };
+
+/**
+ * Get Data By MacAdress
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+export const getDataByMacAddress = async (req: Request, res: Response) => {
+  try {
+    const data = await Mqtt.find({ macAddress: req?.body?.macAddress });
+    return res.status(200).json({ data });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `INTERNAL SERVER ERROR: ${(error as Error).message}` });
+  }
+};

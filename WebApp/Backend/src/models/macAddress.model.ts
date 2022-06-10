@@ -4,7 +4,14 @@ import { IMacAddress } from "../types/types";
 const macAddressSchema = new Schema<IMacAddress>(
   {
     userId: { type: Types.ObjectId, ref: "User" },
-    macAddress: [{ type: String }],
+    deviceDetails: [
+      {
+        macAddress: { type: String },
+        btnName: { type: String },
+        btnState: { type: String },
+        date: { type: Date },
+      },
+    ],
   },
   { timestamps: true }
 );

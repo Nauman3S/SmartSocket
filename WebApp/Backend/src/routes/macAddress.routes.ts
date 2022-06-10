@@ -3,6 +3,7 @@ import {
   addMacAddress,
   getAllMacAddress,
   removeMacAddress,
+  updateBtnState,
 } from "../controllers/macAddress.controller";
 
 const router: Router = Router();
@@ -24,6 +25,13 @@ router.get("/all", getAllMacAddress);
  * @body
  * macAddress - {string}
  */
-router.delete("/delete", removeMacAddress);
+router.patch("/remove", removeMacAddress);
+
+/**
+ * Delete Macaddress of LoggedIn User
+ * @body
+ * macAddress - {string}
+ */
+router.patch("/updateBtnState", updateBtnState);
 
 export default router;

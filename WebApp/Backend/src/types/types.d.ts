@@ -1,4 +1,5 @@
 import { Types, Document } from "mongoose";
+import { ReadStream } from "fs";
 
 declare global {
   namespace Express {
@@ -28,6 +29,18 @@ export interface IMqtt extends Document, ITimestamps {
   macAddress: string;
   currentValue: string;
   switchState: number;
+}
+
+export interface IOta extends Document, ITimestamps {
+  userId: Types.ObjectId;
+  fileURL: string;
+  key: string;
+}
+
+export interface IUploadOptions {
+  Bucket: string;
+  Body: ReadStream;
+  Key: string;
 }
 
 export interface ITimestamps {
