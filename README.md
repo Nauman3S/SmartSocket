@@ -103,15 +103,7 @@ Here's the complete circuit diagram of the system.
 
 ![CircuitDiagram](Circuit/Circuit_bb.png)
 
-### PCB
 
-![PCBEFM](PCB/SmartEFM/pcb2d.png)
-![PCBEFM3d](PCB/SmartEFM/pcb3d.png)
-
-### Casing
-
-![CAEFM](Casing/SmartEFM_BS_Box.png)
-![CAEFMTOP](Casing/smartEFM_TC.png)
 ### Other Components
 
 ```http
@@ -236,14 +228,14 @@ In settings page, you can configure your device. You can set network type (WiFi/
 ### PCB
 
 **TO BE ADDED**
+<!-- ![PCBEFM](PCB/SmartEFM/pcb2d.png)
+![PCBEFM3d](PCB/SmartEFM/pcb3d.png) -->
 
-<!-- ![PCBBS](PCB/SmartBluetoothScanner/pcb2d.png)
-![PCBEFM3d](PCB/SmartBluetoothScanner/pcb3d.png) -->
 
 ### Casing
 
 ![CAEFM](Casing/SmartEFM_BS_Box.png)
-
+![CAEFMTOP](Casing/smartEFM_TC.png)
 
 
 <br><br>
@@ -252,7 +244,7 @@ In settings page, you can configure your device. You can set network type (WiFi/
 Following components are used to make this project
 
 1.   Microcontrollers
-     *   ESP32 with SIM800L
+     *   ESP32 PCI-E with SIM7600(no eSim)
     https://de.aliexpress.com/item/4001142716386.html?gatewayAdapt=glo2deu
 
 2.  Power Circuit
@@ -267,6 +259,7 @@ Following components are used to make this project
     
     *   Solid State Relay
     https://www.amazon.com/DollaTek-1-Channel-Level-Trigger-Module/dp/B07DK29FR6/ref=sr_1_12?crid=3AY7SEMFWEWVT&keywords=ssr+relay+module&qid=1651029377&sprefix=ss+relay+module%2Caps%2C174&sr=8-12
+    
 # ⛏️ Built Using <a name = "built_using"></a>
 
 
