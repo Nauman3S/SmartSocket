@@ -259,8 +259,8 @@ Following components are used to make this project
     
     *   Solid State Relay
     https://www.amazon.com/DollaTek-1-Channel-Level-Trigger-Module/dp/B07DK29FR6/ref=sr_1_12?crid=3AY7SEMFWEWVT&keywords=ssr+relay+module&qid=1651029377&sprefix=ss+relay+module%2Caps%2C174&sr=8-12
-    
-# ⛏️ Built Using <a name = "built_using"></a>
+
+# ⛏️ Built Using <a name = "built_using"></a><>
 
 
 - [Arduino](https://www.arduino.cc/) - Embedded Framework and IDE - For Sensor Node Design
