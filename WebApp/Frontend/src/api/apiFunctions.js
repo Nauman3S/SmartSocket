@@ -37,10 +37,10 @@ export const addMacAddress = (macAddress, btnName, btnState) =>
     }
   );
 
-export const updateBtnState = (btnName, btnState) =>
+export const updateBtnState = (macAddress, btnName, btnState) =>
   baseURL.patch(
     "/macAddress/updateBtnState",
-    { btnName, btnState },
+    { macAddress, btnName, btnState },
     {
       headers: {
         "x-access-token": getToken(),
@@ -124,3 +124,10 @@ export const deleteOtaFile = async (Key) => {
     },
   });
 };
+
+export const getButtonByMacAddress = (macAddress) =>
+  baseURL.get(`/macAddress/button/${macAddress}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });

@@ -1,4 +1,4 @@
-import { Skeleton, Modal, Input, Select } from "antd";
+import { Skeleton, Modal, Input, Select, Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import moment from "moment";
@@ -8,6 +8,7 @@ import {
   publishToMqtt,
   updateBtnState,
   getAllMacAdresses,
+  getButtonByMacAddress,
 } from "../api/apiFunctions";
 import Swal from "sweetalert2";
 
@@ -27,10 +28,21 @@ const Client = () => {
   const [btns, setBtns] = useState([{ name: "", value: null, state: null }]);
   const [isBtnModalVisible, setBtnModalVisible] = useState(false);
   const [btnName, setBtnName] = useState("");
+  const [btn, setBtn] = useState({});
 
   /* Component Data Fetching */
   const { data: macAddressess } = useQuery("MacAddressess", getAllMacAdresses);
-  console.log(macAddressess);
+
+  const { data: mqttDataBtn, isLoading: mqttLoading } = useQuery(
+    ["getButtonByMacAddress", selectedMacaddress],
+    () => getButtonByMacAddress(selectedMacaddress)
+  );
+
+  useEffect(() => {
+    setBtn(mqttDataBtn?.data?.button[0]?.deviceDetails[0]);
+    setMqttData(mqttDataBtn?.data?.data);
+    setFilteredData(mqttDataBtn?.data?.data);
+  }, [mqttDataBtn?.data?.data, mqttDataBtn?.data?.button]);
 
   const queryClient = useQueryClient();
 
@@ -38,6 +50,15 @@ const Client = () => {
   const getMacMutation = useMutation(getAllMacAdresses, {
     onSuccess: (data) => {
       queryClient.invalidateQueries("MacAddressess");
+    },
+  });
+
+  const getDataMutation = useMutation(getButtonByMacAddress, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries([
+        "getButtonByMacAddress",
+        selectedMacaddress,
+      ]);
     },
   });
 
@@ -92,15 +113,6 @@ const Client = () => {
   };
   const handleMacaddressChange = async (value) => {
     setSelectedMacaddress(value);
-    setLoading(true);
-
-    const res = await getDataByMacAddress(value);
-    if (res.status === 200) {
-      setLoading(false);
-
-      setMqttData(res.data.data);
-      setFilteredData(res.data.data);
-    }
   };
 
   const renderOptions = macAddressess?.data?.data?.deviceDetails?.map(
@@ -108,52 +120,63 @@ const Client = () => {
       return <Option value={data.macAddress}>{data.macAddress}</Option>;
     }
   );
-  const handlePumpBtns = async (btnState, btnName) => {
-    console.log(btnState, btnName);
-    if (btnState === 1) {
-      btnState = 0;
+  const handleBtnOnOff = async (macAddress, btnState, btnName) => {
+    seOkBtnLoading(true);
+    if (btnState === "1") {
+      btnState = "0";
     } else {
-      btnState = 1;
+      btnState = "1";
     }
-    console.log(btnState);
-    await updateBtnState(btnName, btnState);
+    const res = await updateBtnState(macAddress, btnName, btnState);
+    if (res.status === 200) {
+      getDataMutation.mutate();
+    }
 
-    // const res = await publishToMqtt(
-    //   selectedMacaddress,
-    //   `${pumpNumber},${pumpBtns[index].state}`
-    // );
-    // if (res.status === 200) {
-    //   Swal.fire({
-    //     position: "center",
-    //     icon: "success",
-    //     title: "Pump",
-    //     titleText: `Pump ${pumpNumber} ${pumpState === 1 ? "Off" : "On"}`,
-    //     showConfirmButton: false,
-    //     timer: 2000,
-    //   });
-    // } else {
-    //   Swal.fire({
-    //     position: "center",
-    //     icon: "error",
-    //     title: "Something went Wrong! Please check your internet connection",
-    //     // titleText: res?.data?.message,
-    //     showConfirmButton: false,
-    //     timer: 2000,
-    //   });
-    // }
+    const message = {
+      btnName: btnName,
+      state: btnState,
+    };
+
+    const res1 = await publishToMqtt(selectedMacaddress, message);
+    if (res1.status === 200) {
+      seOkBtnLoading(false);
+
+      // Swal.fire({
+      //   position: "center",
+      //   icon: "success",
+      //   title: "Pump",
+      //   titleText: `Pump ${pumpNumber} ${pumpState === 1 ? "Off" : "On"}`,
+      //   showConfirmButton: false,
+      //   timer: 2000,
+      // }
+      // );
+    } else {
+      seOkBtnLoading(false);
+
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Something went Wrong! Please check your internet connection",
+        // titleText: res?.data?.message,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
   };
 
-  const renderButtons = macAddressess?.data?.data?.deviceDetails?.map(
-    (data) => {
-      return (
-        <button
-          className='creat_btn mt-5 mb-3 mr-4'
-          onClick={() => handlePumpBtns(data.btnState, data.btnName)}>
-          {data.btnName}
-        </button>
-      );
-    }
-  );
+  // const renderButtons = macAddressess?.data?.data?.deviceDetails?.map(
+  //   (data) => {
+  //     return (
+  //       <button
+  //         className='creat_btn mt-5 mb-3 mr-4'
+  //         onClick={() =>
+  //           handlePumpBtns(data.macAddress, data.btnState, data.btnName)
+  //         }>
+  //         {data.btnName}
+  //       </button>
+  //     );
+  //   }
+  // );
 
   const handleAddNewBtn = () => {
     handleOk();
@@ -235,9 +258,28 @@ const Client = () => {
                 <tbody>{mqttData.map(userDataArea)}</tbody>
               )}
             </table>
-            {loading && <Skeleton paragraph={{ rows: 5 }} active />}
+            {/* {loading && <Skeleton paragraph={{ rows: 5 }} active />} */}
 
-            {renderButtons}
+            {/* {renderButtons} */}
+            {selectedMacaddress && btn && (
+              <Button
+                className='mt-5 mb-3 mr-4 ml-5'
+                style={{
+                  width: "40%",
+                  border: "none",
+                  height: "40px",
+                  backgroundColor: "#1890ff",
+                  color: "white",
+                }}
+                shape='round'
+                loading={okBtnLoading}
+                // type='primary'
+                onClick={() =>
+                  handleBtnOnOff(btn.macAddress, btn.btnState, btn.btnName)
+                }>
+                {`${btn.btnName} ${btn.btnState === "0" ? "(OFF)" : "(ON)"}`}
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -247,7 +289,10 @@ const Client = () => {
         onOk={handleOk}
         destroyOnClose
         okText={"Add"}
-        okButtonProps={{ loading: okBtnLoading }}
+        okButtonProps={{
+          loading: okBtnLoading,
+          style: { backgroundColor: "#1890ff", color: "white" },
+        }}
         okType={"primary"}
         bodyStyle={{ borderRadius: 50 }}
         onCancel={() => setIsModalVisible(false)}>
@@ -264,9 +309,11 @@ const Client = () => {
         visible={isBtnModalVisible}
         onOk={handleAddNewBtn}
         okText={"Add"}
-        //style: { color: "#1890ff" }
-        okButtonProps={{ loading: okBtnLoading }}
-        okType={"primary"}
+        okButtonProps={{
+          loading: okBtnLoading,
+          style: { backgroundColor: "#1890ff", color: "white" },
+        }}
+        // okType={"primary"}
         bodyStyle={{ borderRadius: 50 }}
         onCancel={() => setBtnModalVisible(false)}>
         <div

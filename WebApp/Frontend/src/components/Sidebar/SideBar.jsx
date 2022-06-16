@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutAdmin } from "../../redux/actions/auth.actions";
 import SidebarMenu from "./SidebarMenu";
+import logo from "../../assets/logo.png";
 
-import logo from "../../assets/logo.jpeg";
 const routes = [
   {
     path: "/dashboard",

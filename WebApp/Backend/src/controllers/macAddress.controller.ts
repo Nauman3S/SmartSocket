@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MacAddress } from "../models";
+import { MacAddress, Mqtt } from "../models";
 import { IMacAddress } from "../types/types";
 
 /**
@@ -60,14 +60,15 @@ export const addMacAddress = async (req: Request, res: Response) => {
  */
 export const updateBtnState = async (req: Request, res: Response) => {
   try {
-    const btn = await MacAddress.updateOne(
+    await MacAddress.findOneAndUpdate(
       {
-        _id: req?.user?._id,
-        deviceDetails: { $elemMatch: { btnName: req?.body?.btnName } },
+        userId: req?.user?._id,
+        deviceDetails: { $elemMatch: { macAddress: req?.body?.macAddress } },
       },
-      { $set: { "deviceDetails.$.btnState": req.body.btnState } }
+      {
+        $set: { "deviceDetails.$.btnState": req?.body?.btnState },
+      }
     );
-    console.log(btn);
     return res.status(200).json({ message: "Button Added Successfully!" });
   } catch (error) {
     return res
@@ -83,13 +84,42 @@ export const updateBtnState = async (req: Request, res: Response) => {
  */
 export const removeMacAddress = async (req: Request, res: Response) => {
   try {
+    console.log(req.body.macAddress);
     await MacAddress.findOneAndUpdate(
       { userId: req?.user?._id },
       {
-        $pull: { macAddress: req?.body?.macAddress },
+        $pull: {
+          deviceDetails: { macAddress: req?.body?.macAddress },
+        },
       }
     );
     return res.status(200).json({ message: "Button Deleted!" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `INTERNAL SERVER ERROR: ${(error as Error).message}` });
+  }
+};
+
+/**
+ * Get Button By MacAddress
+ * @param {Request} req
+ * @param {Request} req
+ */
+export const getButtonByMacAddress = async (req: Request, res: Response) => {
+  try {
+    const data = await Mqtt.find({ macAddress: req?.params?.macAddress });
+    const button = await MacAddress.find(
+      {
+        userId: req?.user?._id,
+      },
+      {
+        deviceDetails: {
+          $elemMatch: { macAddress: req?.params?.macAddress },
+        },
+      }
+    );
+    return res.status(200).json({ button, data });
   } catch (error) {
     return res
       .status(500)

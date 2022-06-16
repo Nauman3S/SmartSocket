@@ -12,10 +12,10 @@ const Dashboard = () => {
 
   const profile = useCallback(() => {
     // const token = getToken();
+    console.log("jjjjjjj");
 
     dispatch(fetchProfile());
   }, [dispatch, fetchProfile]);
-  console.log(authState.role);
 
   useEffect(() => {
     profile();

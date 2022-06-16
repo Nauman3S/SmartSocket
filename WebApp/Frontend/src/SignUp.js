@@ -35,10 +35,10 @@ function Signup() {
         style={{ display: `${loading ? "none" : "flex"}` }}
         className='login_page'>
         <div className='flex1'>
-          <img src='/images/logo.jpeg' alt=''></img>
+          <img src='/images/logo.png' className='login_img1' alt=''></img>
         </div>
         <div className='flex2'>
-          <img className='phone_sec' src='/images/logo.jpeg' alt=''></img>
+          <img className='phone_sec' src='/images/logo.png' alt=''></img>
           <p className='login_title'>Smart Hydroponics</p>
 
           <Form

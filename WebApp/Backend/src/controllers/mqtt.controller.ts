@@ -29,8 +29,10 @@ export const postToMqtt = async () => {
  */
 export const publishToMqtt = async (req: Request, res: Response) => {
   try {
-    const { message }: { message: string } = req?.body;
+    let { message }: { message: string } = req?.body;
     const macAddress: string = req?.params?.macAddress + "/smartsocket";
+
+    message = JSON.stringify(message);
 
     mqttClient.publish(
       macAddress,

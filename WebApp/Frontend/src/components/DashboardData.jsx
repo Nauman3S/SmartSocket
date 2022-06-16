@@ -143,7 +143,7 @@ export default function DashboardData() {
                     </tr>
                   </thead>
                   <tbody>
-                    {dataLoading || data?.data?.ota.map(userDataArea)}
+                    {dataLoading || data?.data?.ota?.map(userDataArea)}
                   </tbody>
                 </table>
                 {/* <Link className='' to='/all-users-data'>
@@ -184,7 +184,7 @@ export default function DashboardData() {
             icon={<UploadOutlined />}
             style={{ marginTop: "5vh", width: "100%" }}>
             <span className='btn-inner--text'>
-              {uploading ? "Uplaoding" : "Upload Photos"}
+              {uploading ? "Uplaoding" : "Upload File"}
             </span>
             {/* <span className='btn-inner--icon'>
               {uploading ? (

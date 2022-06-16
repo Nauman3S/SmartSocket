@@ -23,22 +23,25 @@ const Settings = () => {
       queryClient.invalidateQueries("MacAddressess");
     },
   });
-
-  console.log(macAddressess);
-
   const userDataArea = (data, index) => {
     return (
       <tr key={index}>
-        <td className='table_text'>{`${data}`}</td>
+        <td className='table_text'>{`${data.macAddress}`}</td>
         <td className='table_text'>
           <Popconfirm
             title='Are you sure to delete this MacAddress?'
-            onConfirm={() => handleDeleteMacaddress(data)}
+            onConfirm={() => handleDeleteMacaddress(data.macAddress)}
             // onCancel={cancel}
+            okButtonProps={{
+              style: { color: "white", backgroundColor: "#1890ff" },
+            }}
             okText='Yes'
             cancelText='No'>
-            {" "}
-            <Button type='danger'>Delete</Button>
+            <Button
+              type='danger'
+              style={{ color: "white", backgroundColor: "red" }}>
+              Delete
+            </Button>
           </Popconfirm>
         </td>
       </tr>
@@ -109,8 +112,8 @@ const Settings = () => {
                   </th>
                 </tr>
               </thead>
-              {macaddressess && Object.keys(macaddressess).length > 0 && (
-                <tbody>{macaddressess?.macAddress?.map(userDataArea)}</tbody>
+              {macaddressess && (
+                <tbody>{macaddressess?.deviceDetails?.map(userDataArea)}</tbody>
               )}
             </table>
             {loading && <Skeleton paragraph={{ rows: 5 }} active />}

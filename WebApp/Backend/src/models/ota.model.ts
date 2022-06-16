@@ -3,7 +3,7 @@ import { IOta } from "../types/types";
 
 const otaSchema = new Schema<IOta>(
   {
-    userId: { type: Types.ObjectId },
+    userId: { type: Types.ObjectId, ref: "User" },
     fileURL: { type: String },
     fileName: { type: String },
     key: { type: String },

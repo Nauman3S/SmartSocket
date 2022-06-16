@@ -22,10 +22,10 @@ function Login() {
     <>
       <div style={{ display: "flex" }} className='login_page'>
         <div className='flex1'>
-          <img className='login_img1' src='/images/logo.jpeg' alt=''></img>
+          <img className='login_img1' src='/images/logo.png' alt=''></img>
         </div>
         <div className='flex2'>
-          <img className='phone_sec' src='/images/logo.jpeg' alt=''></img>
+          <img className='phone_sec' src='/images/logo.png' alt=''></img>
           <p className='login_title'>Smart Hydroponics</p>
 
           <Form
