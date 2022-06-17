@@ -39,6 +39,9 @@ export default function DashboardData() {
               onConfirm={() => {
                 handleDeleteFile(data.key);
               }}
+              okButtonProps={{
+                style: { backgroundColor: "#1890ff", color: "white" },
+              }}
               okText='Yes'
               cancelText='No'>
               <Button style={{ backgroundColor: "red", color: "white" }}>
