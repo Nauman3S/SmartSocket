@@ -17,6 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/abort-controller": "^3.110.0",
+    "@aws-sdk/client-s3": "^3.112.0",
     "@types/colors": "^1.2.1",
     "@types/multer": "^1.4.7",
     "@types/multer-s3": "^2.7.12",
