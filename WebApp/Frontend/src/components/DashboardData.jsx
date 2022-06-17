@@ -41,7 +41,9 @@ export default function DashboardData() {
               }}
               okText='Yes'
               cancelText='No'>
-              <Button type='danger'>Delete</Button>
+              <Button style={{ backgroundColor: "red", color: "white" }}>
+                Delete
+              </Button>
             </Popconfirm>
           }
         </td>
@@ -169,37 +171,31 @@ export default function DashboardData() {
             // onRemove={onRemove}
           >
             <Button
-              type='primary'
               icon={<AppstoreAddOutlined />}
-              style={{ marginTop: "5vh", width: "100%" }}>
+              style={{
+                marginTop: "5vh",
+                width: "100%",
+                backgroundColor: "#1890ff",
+                color: "white",
+              }}>
               Select File
             </Button>
           </Upload>
 
           <Button
-            type='primary'
             onClick={handleUpload}
             loading={uploading}
             // disabled={uploadFile}
             icon={<UploadOutlined />}
-            style={{ marginTop: "5vh", width: "100%" }}>
+            style={{
+              marginTop: "5vh",
+              width: "100%",
+              backgroundColor: "#1890ff",
+              color: "white",
+            }}>
             <span className='btn-inner--text'>
               {uploading ? "Uplaoding" : "Upload File"}
             </span>
-            {/* <span className='btn-inner--icon'>
-              {uploading ? (
-                <Spin
-                  indicator={
-                    <LoadingOutlined
-                      style={{ fontSize: 24, marginLeft: "20px" }}
-                      spin
-                    />
-                  }
-                />
-              ) : (
-                <i className='ni ni-cloud-upload-96'></i>
-              )}
-            </span> */}
           </Button>
         </div>
       </Modal>
