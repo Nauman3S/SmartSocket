@@ -1,8 +1,8 @@
 import Axios from "axios";
 
 export const baseURL = Axios.create({
-  // baseURL: process.env.REACT_APP_API,
-  baseURL: "http://localhost:3500/api",
+  baseURL: process.env.REACT_APP_API,
+  // baseURL: "http://localhost:3500/api",
 });
 
 export const setAuthToken = (token) => {

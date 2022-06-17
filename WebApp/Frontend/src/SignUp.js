@@ -39,7 +39,7 @@ function Signup() {
         </div>
         <div className='flex2'>
           <img className='phone_sec' src='/images/logo.png' alt=''></img>
-          <p className='login_title'>Smart Hydroponics</p>
+          <p className='login_title'>Smart Socket</p>
 
           <Form
             style={{ width: "100%", marginLeft: "100px" }}
