@@ -28,16 +28,20 @@ const AllUsersData = () => {
   const onSearch = ({ target: { value } }) =>
     setFilteredData(
       userData.filter((user) =>
-        `${user.fullName}`.toLowerCase().includes(value.toLowerCase())
+        `${user.userId.fullName}`.toLowerCase().includes(value.toLowerCase())
       )
     );
   const userDataArea = (data, index) => {
     if (data.userId.role === "admin") return;
+    console.log(data);
     return (
       <tr key={index}>
         <td className='table_text'>{`${data.userId.fullName}`}</td>
         <td className='table_text'>{`${data.userId.email}`}</td>
-        <td className='table_text'>{`${data.macAddress}`}</td>
+        <td className='table_text'>{`${data.deviceDetails.map((data) => {
+          return data.macAddress;
+        })}`}</td>
+        <td className='table_text'>{`${data?.deviceDetails?.length}`}</td>
       </tr>
     );
   };
@@ -83,6 +87,9 @@ const AllUsersData = () => {
                   </th>
                   <th className='heading_table' scope='col'>
                     MacAddressess
+                  </th>
+                  <th className='heading_table' scope='col'>
+                    No of Sockets
                   </th>
                 </tr>
               </thead>

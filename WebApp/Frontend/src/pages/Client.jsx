@@ -237,7 +237,7 @@ const Client = () => {
                     className='heading_table'
                     scope='col'
                     style={{ textAlign: "center" }}>
-                    Current Value
+                    Power Usage (Watts)
                   </th>
                   <th
                     className='heading_table'
