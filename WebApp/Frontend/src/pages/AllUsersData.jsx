@@ -1,18 +1,29 @@
 import { Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getAllUsersMacaddress } from "../api/apiFunctions";
+import {
+  getAllUsersMacaddress,
+  getAllUsersMqttData,
+} from "../api/apiFunctions";
 
 const AllUsersData = () => {
   /* Component States */
+
   const [userData, setUserData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+  const [allMqttData, setAllMqttData] = useState([]);
+  const [mqttFilteredData, setMqttFilteredData] = useState([]);
   /* Component Data Fetching */
   const { data, isLoading } = useQuery(
     "getAllUsersMacaddress",
     getAllUsersMacaddress
   );
+  const { data: mqttData, isLoading: mqttLoading } = useQuery(
+    "getAllUsersMqttData",
+    getAllUsersMqttData
+  );
+  console.log(mqttData?.data?.mqttData);
 
   /* Use Effect Hooks */
   useEffect(() => {
@@ -20,8 +31,10 @@ const AllUsersData = () => {
   }, []);
   useEffect(() => {
     setUserData(data?.data?.Macaddressess);
+    setAllMqttData(mqttData?.data?.mqttData);
     setFilteredData(data?.data?.Macaddressess);
-  }, [isLoading, data?.data?.Macaddressess]);
+    setMqttFilteredData(mqttData?.data?.mqttData);
+  }, [isLoading, data?.data?.Macaddressess, mqttData?.data?.mqttData]);
 
   /* On change function for fields */
 
@@ -29,6 +42,13 @@ const AllUsersData = () => {
     setFilteredData(
       userData.filter((user) =>
         `${user.userId.fullName}`.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+
+  const onSearchMqtt = ({ target: { value } }) =>
+    setMqttFilteredData(
+      allMqttData.filter((data) =>
+        `${data.macAddress}`.toLowerCase().includes(value.toLowerCase())
       )
     );
   const userDataArea = (data, index) => {
@@ -42,6 +62,16 @@ const AllUsersData = () => {
           return data.macAddress;
         })}`}</td>
         <td className='table_text'>{`${data?.deviceDetails?.length}`}</td>
+      </tr>
+    );
+  };
+  const userDataArea2 = (data, index) => {
+    // if (data.userId.role === "admin") return;
+    console.log(data);
+    return (
+      <tr key={index}>
+        <td className='table_text'>{`${data.macAddress}`}</td>
+        <td className='table_text'>{`${data.currentValue}`}</td>
       </tr>
     );
   };
@@ -97,6 +127,39 @@ const AllUsersData = () => {
                 (filteredData && Object.keys(filteredData).length > 0 && (
                   <tbody>{filteredData.map(userDataArea)}</tbody>
                 ))}
+            </table>
+            {isLoading && <Skeleton paragraph={{ rows: 5 }} active />}
+          </div>
+        </div>
+        <div className=' mt-3'>
+          <div className='serch'>
+            <img className='search_img' src='/images/searc.svg' alt='' />
+            <input
+              type='text'
+              className='form-control search_input col-10'
+              placeholder='Search By MacAddress'
+              onChange={onSearchMqtt}
+            />
+          </div>
+        </div>
+        <div className='col-lg-12 col-md-8 padding_table mt-2 pl-0'>
+          <div className='table-responsive pl-0 pr-0'>
+            <table className='table  background_table'>
+              <thead className='thead-dark'>
+                <tr>
+                  <th className='heading_table' scope='col'>
+                    MacAddressess
+                  </th>
+                  <th className='heading_table' scope='col'>
+                    Power Usage
+                  </th>
+                </tr>
+              </thead>
+              {mqttLoading ||
+                (mqttFilteredData &&
+                  Object.keys(mqttFilteredData).length > 0 && (
+                    <tbody>{mqttFilteredData.map(userDataArea2)}</tbody>
+                  ))}
             </table>
             {isLoading && <Skeleton paragraph={{ rows: 5 }} active />}
           </div>

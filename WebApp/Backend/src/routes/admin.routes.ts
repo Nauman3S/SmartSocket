@@ -7,6 +7,7 @@ import {
   getAllUsersMacaddress,
   getAllUsersMqttData,
   getAllFiles,
+  getOneUsersMqttData,
 } from "../controllers/admin/admin.controller";
 import multer from "multer";
 const upload = multer({
@@ -52,5 +53,10 @@ router.get("/all-macAddress", getAllUsersMacaddress);
  * Get All Users Mqtt Data
  */
 router.get("/all-mqttData", getAllUsersMqttData);
+
+/**
+ * Get All Users Mqtt Data
+ */
+router.get("/mqttData", getOneUsersMqttData);
 
 export default router;

@@ -129,7 +129,7 @@ export const getAllUsersMacaddress = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const Macaddressess = await MacAddress.find().populate({
+    const Macaddressess: any = await MacAddress.find().populate({
       path: "userId",
       select: "-password",
     });
@@ -152,6 +152,25 @@ export const getAllUsersMqttData = async (
 ): Promise<Response> => {
   try {
     const mqttData = await Mqtt.find();
+    return res.status(200).json({ mqttData });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `INTERNAL SERVER ERROR: ${(error as Error).message}` });
+  }
+};
+
+/**
+ * Get One Users MqttData
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+export const getOneUsersMqttData = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const mqttData = await Mqtt.find({ macAddress: req?.body?.macAddress });
     return res.status(200).json({ mqttData });
   } catch (error) {
     return res

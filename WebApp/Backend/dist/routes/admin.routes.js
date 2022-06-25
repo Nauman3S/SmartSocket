@@ -41,4 +41,8 @@ router.get("/all-macAddress", admin_controller_1.getAllUsersMacaddress);
  * Get All Users Mqtt Data
  */
 router.get("/all-mqttData", admin_controller_1.getAllUsersMqttData);
+/**
+ * Get All Users Mqtt Data
+ */
+router.get("/mqttData", admin_controller_1.getOneUsersMqttData);
 exports.default = router;

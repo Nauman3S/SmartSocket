@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUsersMqttData = exports.getAllUsersMacaddress = exports.getAllUsers = exports.dashboardCounts = exports.getAllFiles = exports.deleteFileFromS3 = exports.uploadFileToS3 = void 0;
+exports.getOneUsersMqttData = exports.getAllUsersMqttData = exports.getAllUsersMacaddress = exports.getAllUsers = exports.dashboardCounts = exports.getAllFiles = exports.deleteFileFromS3 = exports.uploadFileToS3 = void 0;
 const models_1 = require("../../models");
 // import { IOta } from "../../types/types";
 const multer_1 = require("../../libraries/multer");
@@ -158,3 +158,21 @@ const getAllUsersMqttData = (_req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.getAllUsersMqttData = getAllUsersMqttData;
+/**
+ * Get One Users MqttData
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+const getOneUsersMqttData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
+    try {
+        const mqttData = yield models_1.Mqtt.find({ macAddress: (_b = req === null || req === void 0 ? void 0 : req.body) === null || _b === void 0 ? void 0 : _b.macAddress });
+        return res.status(200).json({ mqttData });
+    }
+    catch (error) {
+        return res
+            .status(500)
+            .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
+    }
+});
+exports.getOneUsersMqttData = getOneUsersMqttData;
